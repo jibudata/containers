@@ -1,4 +1,4 @@
-FROM docker.io/bitnami/minideb:bullseye
+FROM registry.cn-shanghai.aliyuncs.com/jibutech/minideb:bullseye
 
 ARG TARGETARCH
 

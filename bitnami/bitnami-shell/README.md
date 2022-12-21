@@ -51,6 +51,11 @@ If you wish, you can also build the image yourself by cloning the repository, ch
 $ git clone https://github.com/bitnami/containers.git
 $ cd bitnami/APP/VERSION/OPERATING-SYSTEM
 $ docker build -t bitnami/APP:latest .
+
+# multi-arch 
+
+buildx build --platform "linux/amd64,linux/arm64" -t registry.cn-shanghai.aliyuncs.com/jibutech/bitnami-shell:2022.12.21-debian-11 . --push
+
 ```
 
 ## Configuration
