@@ -1,4 +1,0 @@
-bitnami/minio/2021/debian-11/linux/amd64 filter=lfs diff=lfs merge=lfs -text
-bitnami/minio/2021/debian-11/linux/arm64 filter=lfs diff=lfs merge=lfs -text
-bitnami/minio/2021/debian-11/linux/amd64/minio filter=lfs diff=lfs merge=lfs -text
-bitnami/minio/2021/debian-11/linux/arm64/minio filter=lfs diff=lfs merge=lfs -text

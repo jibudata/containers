@@ -13,7 +13,8 @@ LABEL org.opencontainers.image.authors="https://bitnami.com/contact" \
 ENV HOME="/" \
     OS_ARCH="${TARGETARCH:-amd64}" \
     OS_FLAVOUR="debian-11" \
-    OS_NAME="linux"
+    OS_NAME="linux" \
+    DOWNLOAD_URL="https://ys1000-public.oss-cn-shanghai.aliyuncs.com/multi-arch/linux"
 
 COPY prebuildfs /
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -23,6 +24,7 @@ RUN install_packages ca-certificates curl jq procps
 RUN apt-get update && apt-get upgrade -y && \
     apt-get clean && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
+# TODO: move to download script
 # https://dl.min.io/server/minio/release/linux-amd64/archive/minio.RELEASE.2021-12-10T23-03-39Z
 # https://dl.min.io/server/minio/release/linux-arm64/archive/minio.RELEASE.2021-12-10T23-03-39Z
 # https://dl.minio.io/client/mc/release/linux-amd64/archive/mc.RELEASE.2021-12-10T00-14-28Z
@@ -31,14 +33,17 @@ RUN apt-get update && apt-get upgrade -y && \
 # https://github.com/tianon/gosu/releases
 
 RUN mkdir -p /opt/bitnami/minio-client/bin
-COPY linux/${OS_ARCH}/mc /opt/bitnami/minio-client/bin/mc
+RUN curl -sSL ${DOWNLOAD_URL}/${OS_ARCH}/mc > /opt/bitnami/minio-client/bin/mc
+RUN chmod +x /opt/bitnami/minio-client/bin/mc
 
 RUN mkdir -p /opt/bitnami/minio/bin
-COPY linux/${OS_ARCH}/minio /opt/bitnami/minio/bin/minio
+RUN curl -sSL ${DOWNLOAD_URL}/${OS_ARCH}/minio > /opt/bitnami/minio/bin/minio
+RUN chmod +x /opt/bitnami/minio/bin/minio
 
 RUN mkdir -p /opt/bitnami/common/bin
-COPY linux/${OS_ARCH}/gosu /opt/bitnami/common/bin/gosu
-COPY linux/${OS_ARCH}/wait-for-port /opt/bitnami/common/bin/wait-for-port
+RUN curl -sSL ${DOWNLOAD_URL}/${OS_ARCH}/gosu > /opt/bitnami/common/bin/gosu
+RUN curl -sSL ${DOWNLOAD_URL}/${OS_ARCH}/wait-for-port > /opt/bitnami/common/bin/wait-for-port
+RUN chmod +x /opt/bitnami/common/bin/*
 
 RUN chmod g+rwX /opt/bitnami
 
